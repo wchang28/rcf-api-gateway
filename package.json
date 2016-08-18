@@ -1,0 +1,26 @@
+{
+  "name": "rcf-api-gateway",
+  "version": "0.0.1",
+  "description": "RCF API Gateway",
+  "main": "./js/app.js",
+  "scripts": {},
+  "keywords": [
+    "RCF",
+    "API",
+    "Gateway"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wchang28/rcf-api-gateway.git"
+  },
+  "author": "Wen Chang",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-web-seerver": "git+https://github.com/wchang28/express-web-server.git",
+    "no-cache-express": "git+https://github.com/wchang28/no-cache-express.git",
+    "rcf-http-proxy": "git+https://github.com/wchang28/rcf-http-proxy.git",
+    "rest-api-interfaces": "git+https://github.com/wchang28/rest-api-interfaces.git"
+  }
+}

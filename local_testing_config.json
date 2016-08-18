@@ -1,0 +1,14 @@
+{
+    "webServerConfig":
+    {
+        "http":
+        {
+            "host": "0.0.0.0"
+            ,"port": 8080
+        }
+    }
+    ,"targetSettings":
+    {
+        "instance_url": "https://www.google.com"
+    }
+}
