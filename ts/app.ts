@@ -27,6 +27,8 @@ let logHandler = (req:express.Request, res:express.Response, next:express.NextFu
 	next();
 }
 
+app.use(logHandler);
+
 let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request, done: httpProxy.TargetAcquisitionCompletionHandler) => {
     let targetSesstings: httpProxy.TargetSettings = {
         targetUrl: config.targetSettings.instance_url
