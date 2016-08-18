@@ -18,6 +18,15 @@ let app = express();
 
 app.use(noCache);
 
+let logHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => {
+	console.log('**********************************************************************');
+	console.log('incoming request from ' + req.connection.remoteAddress + ":" + req.connection.remotePort + ', url='+ req.url);
+	console.log('headers: ' + JSON.stringify(req.headers));
+	console.log('**********************************************************************');
+	console.log('');
+	next();
+}
+
 let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request, done: httpProxy.TargetAcquisitionCompletionHandler) => {
     let targetSesstings: httpProxy.TargetSettings = {
         targetUrl: config.targetSettings.instance_url
