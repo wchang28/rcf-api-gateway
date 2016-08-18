@@ -31,5 +31,5 @@ let proxyOptions: httpProxy.Options = {
 app.use(httpProxy.get(proxyOptions));
 
 startServer(config.webServerConfig, app, (secure:boolean, host:string, port:number) => {
-    console.log('admin app server listening at %s://%s:%s', (secure ? 'https' : 'http'), host, port);
+    console.log('api gateway server listening at %s://%s:%s', (secure ? 'https' : 'http'), host, port);
 });
