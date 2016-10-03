@@ -1,6 +1,6 @@
 {
   "name": "rcf-api-gateway",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "RCF API Gateway",
   "main": "./js/app.js",
   "scripts": {},
@@ -16,7 +16,8 @@
   "author": "Wen Chang",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.15.2",
+    "@types/express": "^4.0.33",
+    "@types/node": "^6.0.41",
     "express": "^4.14.0",
     "express-web-seerver": "git+https://github.com/wchang28/express-web-server.git",
     "no-cache-express": "git+https://github.com/wchang28/no-cache-express.git",
