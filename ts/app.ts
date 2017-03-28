@@ -42,7 +42,7 @@ let eventEmitter = new events.EventEmitter();
 
 eventEmitter.on('error', (err: any) => {
     console.error(new Date().toISOString() + ": !!! Proxy error: " + JSON.stringify(err));
-})
+});
 
 app.use(httpProxy.get({targetAcquisition, eventEmitter}));
 
