@@ -4,7 +4,8 @@ import * as path from 'path';
 import * as express from 'express';
 import * as restIntf from 'rest-api-interfaces';
 import noCache = require('no-cache-express');
-import * as httpProxy from 'rcf-http-proxy'
+import * as httpProxy from 'express-http-proxy'
+import * as events from 'events';
 
 interface IAppConfig {
     webServerConfig: IWebServerConfig;
@@ -20,7 +21,7 @@ app.use(noCache);
 
 let logHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => {
 	console.log('**********************************************************************');
-	console.log('incoming request from ' + req.connection.remoteAddress + ":" + req.connection.remotePort + ', url='+ req.url);
+	console.log(new Date().toISOString() + ': incoming request from ' + req.connection.remoteAddress + ":" + req.connection.remotePort + ', url='+ req.url);
 	console.log('headers: ' + JSON.stringify(req.headers));
 	console.log('**********************************************************************');
 	console.log('');
@@ -29,18 +30,24 @@ let logHandler = (req:express.Request, res:express.Response, next:express.NextFu
 
 app.use(logHandler);
 
-let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request, done: httpProxy.TargetAcquisitionCompletionHandler) => {
+let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request) => {
     let targetSesstings: httpProxy.TargetSettings = {
         targetUrl: config.targetSettings.instance_url
     }
     if (typeof config.targetSettings.rejectUnauthorized === 'boolean') targetSesstings.rejectUnauthorized = config.targetSettings.rejectUnauthorized;
-    done(null, targetSesstings);
+    return Promise.resolve<httpProxy.TargetSettings>(targetSesstings);
 };
-let proxyOptions: httpProxy.Options = {
-    targetAcquisition: targetAcquisition
-};
-app.use(httpProxy.get(proxyOptions));
+
+let eventEmitter = new events.EventEmitter();
+
+eventEmitter.on('error', (err: any) => {
+    console.error(new Date().toISOString() + ": !!! Proxy error: " + JSON.stringify(err));
+})
+
+app.use(httpProxy.get({targetAcquisition, eventEmitter}));
 
 startServer(config.webServerConfig, app, (secure:boolean, host:string, port:number) => {
-    console.log('api gateway server listening at %s://%s:%s', (secure ? 'https' : 'http'), host, port);
+    console.log(new Date().toISOString() + ': api gateway server listening at %s://%s:%s', (secure ? 'https' : 'http'), host, port);
+}, (err: any) => {
+    console.error(new Date().toISOString() + ": !!! Error: " + JSON.stringify(err));
 });
