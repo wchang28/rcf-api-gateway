@@ -41,7 +41,7 @@ let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request) => {
 let eventEmitter = new events.EventEmitter();
 
 eventEmitter.on('error', (err: any) => {
-    console.error(new Date().toISOString() + ": !!! Proxy error: " + JSON.stringify(err));
+    console.error(new Date().toISOString() + ": !!! Proxy error: " + err.toString());
 });
 
 app.use(httpProxy.get({targetAcquisition, eventEmitter}));
