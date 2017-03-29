@@ -31,11 +31,11 @@ let logHandler = (req:express.Request, res:express.Response, next:express.NextFu
 app.use(logHandler);
 
 let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request) => {
-    let targetSesstings: httpProxy.TargetSettings = {
+    let targetSettings: httpProxy.TargetSettings = {
         targetUrl: config.targetSettings.instance_url
     }
-    if (typeof config.targetSettings.rejectUnauthorized === 'boolean') targetSesstings.rejectUnauthorized = config.targetSettings.rejectUnauthorized;
-    return Promise.resolve<httpProxy.TargetSettings>(targetSesstings);
+    if (typeof config.targetSettings.rejectUnauthorized === 'boolean') targetSettings.rejectUnauthorized = config.targetSettings.rejectUnauthorized;
+    return Promise.resolve<httpProxy.TargetSettings>(targetSettings);
 };
 
 let eventEmitter = new events.EventEmitter();
