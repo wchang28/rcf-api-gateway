@@ -19,16 +19,17 @@ let app = express();
 
 app.use(noCache);
 
-let logHandler = (req:express.Request, res:express.Response, next:express.NextFunction) => {
+let requestLogger = (req:express.Request, res:express.Response, next:express.NextFunction) => {
 	console.log('**********************************************************************');
-	console.log(new Date().toISOString() + ': incoming request from ' + req.connection.remoteAddress + ":" + req.connection.remotePort + ', url='+ req.url);
+    let req_address = req.connection.remoteAddress + ':' + req.connection.remotePort.toString();
+    console.log(new Date().toISOString() + ': incoming "' + req.method.toUpperCase() + '" request from ' + req_address + ', url='+ req.url);
 	console.log('headers: ' + JSON.stringify(req.headers));
 	console.log('**********************************************************************');
 	console.log('');
 	next();
 }
 
-app.use(logHandler);
+app.use(requestLogger);
 
 let targetAcquisition: httpProxy.TargetAcquisition = (req:express.Request) => {
     let targetSettings: httpProxy.TargetSettings = {
